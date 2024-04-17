@@ -164,7 +164,14 @@
                         android:layout_height="200dp"
                         android:layout_marginTop="20dp"
                         map:uiZoomControls="true"
-                        tools:ignore="FragmentTagUsage" />
+                        tools:ignore="FragmentTagUsage" >
+
+<!--                        <com.google.android.gms.maps.MapView tools:ignore="ExtraText">-->
+<!--                            android:id="@+id/google_map"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                        </com.google.android.gms.maps.MapView>-->
+                    </fragment>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/submit"

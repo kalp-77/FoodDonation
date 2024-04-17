@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="24dp"
-                    android:text="Our mission is to make Kenya a hunger free country."
+                    android:text="Our mission is to make India a hunger free country."
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -144,6 +144,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="© 2022 All rights reserved"/>
+            android:text="© 2024 All rights reserved"/>
     </LinearLayout>
 </ScrollView >

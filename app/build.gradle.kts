@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.places)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,9 +72,11 @@ dependencies {
 
     //Google maps
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
-
+    implementation ("com.google.maps.android:android-maps-utils:3.8.0")
     implementation ("com.google.android.gms:play-services-location:21.2.0")
     implementation ("com.google.android.gms:play-services-places:17.0.0")
+    implementation ("com.google.maps:google-maps-services:0.2.4")
+
 
     //hilt dagger
     implementation("com.google.dagger:hilt-android:2.48")

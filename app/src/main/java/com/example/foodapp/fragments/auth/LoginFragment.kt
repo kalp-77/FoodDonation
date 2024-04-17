@@ -1,6 +1,13 @@
 package com.example.foodapp.fragments.auth
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
+import android.content.IntentSender
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +15,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,11 +27,25 @@ import com.example.foodapp.utils.CheckInternet
 import com.example.foodapp.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.foodapp.fragments.auth.viewmodel.LoginViewModel
+import com.example.foodapp.fragments.splash.SplashFragment
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.LocationSettingsResponse
+import com.google.android.gms.tasks.Task
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel : LoginViewModel by viewModels()
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    companion object {
+        private const val REQUEST_CHECK_SETTINGS = 1001
+        private const val LOCATION_PERMISSION_REQUEST_CODE = 1002
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +69,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.btnLogin.setOnClickListener {
+            Log.d("TAG", "login button clicked")
             val email = binding.emailTinputLayout.editText?.text.toString()
             val password = binding.passwordInputLayout.editText?.text.toString()
 
@@ -205,5 +229,86 @@ i                                    if (currentUser!!.isEmailVerified) {
         }
         return view
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
+        checkLocationSettings()
+    }
+    private fun checkLocationSettings() {
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+
+        val client = LocationServices.getSettingsClient(requireContext())
+        val task: Task<LocationSettingsResponse> = client.checkLocationSettings(builder.build())
+
+        task.addOnSuccessListener {
+            // Location settings are satisfied
+            if (!isLocationPermissionGranted()) {
+                requestLocationPermission()
+            }
+        }
+
+        task.addOnFailureListener { exception ->
+            if (exception is ResolvableApiException) {
+                try {
+                    exception.startResolutionForResult(requireActivity(),
+                        LoginFragment.REQUEST_CHECK_SETTINGS
+                    )
+                } catch (sendEx: IntentSender.SendIntentException) {
+                    // Ignore the error
+                }
+            } else {
+                // Location settings are not satisfied
+                showLocationTurnOnDialog()
+            }
+        }
+    }
+    private fun isLocationPermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+    private fun requestLocationPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            LoginFragment.LOCATION_PERMISSION_REQUEST_CODE
+        )
+    }
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            LoginFragment.LOCATION_PERMISSION_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission granted, do nothing as we already handled it in checkLocationSettings
+                } else {
+                    Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    private fun showLocationTurnOnDialog() {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Turn On Location")
+            .setMessage("Location services are required for this app. Please turn on location.")
+            .setCancelable(false)
+            .setPositiveButton("Turn On") { dialog, which ->
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+            }
+            .setNegativeButton("Exit App") { dialog, which ->
+                requireActivity().finish()
+            }
+            .show()
+    }
 }

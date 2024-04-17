@@ -50,7 +50,7 @@ class ContactUsFragment : Fragment() {
                    )
                    emailIntent.action = Intent.ACTION_SEND
                    emailIntent.type = "message/rfc822"
-                   emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("leencelidonde@gmail.com"))
+                   emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf("shirke.mrunmayi@gmail.com"))
                    emailIntent.putExtra(Intent.EXTRA_CC, "")
                    emailIntent.putExtra(Intent.EXTRA_BCC, "")
                    emailIntent.putExtra(

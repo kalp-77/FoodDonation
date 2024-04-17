@@ -33,8 +33,8 @@ class SplashFragment : Fragment() {
         Handler(Looper.getMainLooper()).postDelayed({
             if(isAdded) {
                 if (user != null) {
-                    val action = SplashFragmentDirections.actionSplashFragmentToHomeFragment()
-                    findNavController().navigate(action)
+                    //val action = SplashFragmentDirections.actionSplashFragmentToHomeFragment()
+                    //findNavController().navigate(action)
                     // findNavController().navigate(R.id.action_splashFragment_to_homeFragment)
                     val sharedPrefs =
                         requireActivity().getSharedPreferences("userType", Context.MODE_PRIVATE)

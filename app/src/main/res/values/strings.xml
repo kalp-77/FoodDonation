@@ -26,7 +26,7 @@
     <string name="history">History</string>
     <string name="about_us">About Us</string>
     <string name="submit">Submit</string>
-    <string name="description">Description</string>
+    <string name="description">Address</string>
     <string name="receiver_name">Receiver name</string>
     <string name="food_item">Food item</string>
     <string name="lorem_ipsum_dolor_sit_amet_consectetur_adipiscing_elit_sed_do_eiusmod_tempor_incididunt_ut_labore_et_dolore_magna_aliqua">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
@@ -37,5 +37,6 @@
     <string name="resturant_donor">Resturant</string>
     <string name="organization_receiver">Organization</string>
     <string name="admin">Admin</string>
+    <string name="google_maps_api_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDdQBakJHLY-ggyojYfwRQDKLgaLtl-lok</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.example.foodapp.fragments.foodmap
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.CircleOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
@@ -46,6 +48,9 @@ class FoodMapFragment : Fragment(), OnMapReadyCallback,
     @Inject lateinit var auth: FirebaseAuth
     private lateinit var userID: String
     @Inject lateinit var database: FirebaseFirestore
+
+    private val GEOFENCE_RADIUS = 5000.0 // in meters
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -138,11 +143,29 @@ class FoodMapFragment : Fragment(), OnMapReadyCallback,
         val markerOptions1 = MarkerOptions().position(latLng).title("You are here")
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
 
+
+        mMap.clear() // Clear previous markers and circles
+        mMap.addMarker(markerOptions1)?.showInfoWindow()
+
+        // Add circle border for geofence
+        val circleOptions = CircleOptions()
+            .center(latLng)
+            .radius(GEOFENCE_RADIUS)
+            .strokeColor(Color.BLUE) // Set border color
+            .strokeWidth(2F) // Set border width
+            .fillColor(Color.argb(50, 0, 191, 255))
+
+        mMap.addCircle(circleOptions)
+
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15F))
         mMap.addMarker(markerOptions1)?.showInfoWindow()
     }
 
     private fun showLocation() {
+
+        mMap.clear() // Clear previous markers
+        val geofenceCenter = LatLng(mLastLocation.latitude, mLastLocation.longitude)
+
         database.collection("donations")
             .get()
             .addOnCompleteListener { task ->
@@ -155,17 +178,19 @@ class FoodMapFragment : Fragment(), OnMapReadyCallback,
                             val location = document["location"] as GeoPoint?
                             val title = document["name"] as String?
                             val description = document["description"] as String?
-                            val latLng = LatLng(
-                                location!!.latitude, location.longitude
-                            )
-                            mMap.addMarker(
-                                MarkerOptions().position(latLng).title("$title Donor")
-                                    .snippet(description).icon(
-                                        BitmapDescriptorFactory.defaultMarker(
-                                            BitmapDescriptorFactory.HUE_GREEN
+                            val latLng = LatLng(location!!.latitude, location.longitude)
+                            val distance = calculateDistance(geofenceCenter, latLng)
+
+                            if(distance <=GEOFENCE_RADIUS){
+                                mMap.addMarker(
+                                    MarkerOptions().position(latLng).title("$title Donor")
+                                        .snippet(description).icon(
+                                            BitmapDescriptorFactory.defaultMarker(
+                                                BitmapDescriptorFactory.HUE_GREEN
+                                            )
                                         )
-                                    )
-                            )
+                                )
+                            }
                         }
                     }
                 } else {
@@ -173,6 +198,17 @@ class FoodMapFragment : Fragment(), OnMapReadyCallback,
                 }
             }
     }
+
+    private fun calculateDistance(latLng1: LatLng, latLng2: LatLng): Float {
+        val results = FloatArray(1)
+        Location.distanceBetween(
+            latLng1.latitude, latLng1.longitude,
+            latLng2.latitude, latLng2.longitude,
+            results
+        )
+        return results[0]
+    }
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
