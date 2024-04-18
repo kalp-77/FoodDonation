@@ -86,14 +86,16 @@ class MainActivity : AppCompatActivity() {
         val header = binding.navigationView.getHeaderView(0)
         val imageView = header.findViewById<ImageView>(R.id.imageView)
         val userImage = auth.currentUser?.photoUrl
-//        lifecycleScope.launch {
-//            whenCreated {
-//                RepositoryImpl.getInstance().getCurrentUserEmail {
-//                    val userEmailText = header.findViewById<android.widget.TextView>(R.id.useremail)
-//                    userEmailText.text = it
-//                }
-//            }
-//        }
+
+
+       lifecycleScope.launch {
+           whenCreated {
+               RepositoryImpl.getInstance().getCurrentUserEmail {
+                   val userEmailText = header.findViewById<android.widget.TextView>(R.id.useremail)
+                   userEmailText.text = it
+               }
+           }
+       }
 
         Glide
             .with(this)

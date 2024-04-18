@@ -38,5 +38,7 @@
     <string name="organization_receiver">Organization</string>
     <string name="admin">Admin</string>
     <string name="google_maps_api_key" templateMergeStrategy="preserve" translatable="false">AIzaSyDdQBakJHLY-ggyojYfwRQDKLgaLtl-lok</string>
+    <string name="abt_test">Nourish is aimed at providing a platform where compassionate citizens in our country to begin and manage initaitives that solve hunger and food wastage in the country.</string>
+    <string name="project_members">1.Mrunmayi Shirke\n2.Tarak Sonawane\n3.Kalp Patel\n4.Sonali Biswa</string>
 
 </resources>
