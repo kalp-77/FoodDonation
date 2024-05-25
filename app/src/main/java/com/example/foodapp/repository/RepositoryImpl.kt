@@ -1,5 +1,6 @@
 package com.example.foodapp.repository
 
+import android.content.ContentValues
 import android.util.Log
 import com.example.foodapp.model.Donation
 import com.example.foodapp.model.User
@@ -221,6 +222,74 @@ class RepositoryImpl @Inject constructor(
             }
     }
 
+
+
+     suspend fun getCurrentUsername(result: (String) -> Unit) {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            database.collection("users")
+                .document(currentUser.uid)
+                .get()
+                .addOnSuccessListener { snapshot ->
+
+                    val user = snapshot.toObject(User::class.java)
+                    Log.d(ContentValues.TAG, "onCreate Tarak11: "+user?.name.toString())
+                    result.invoke(user?.name.toString())
+
+
+                }
+                .addOnFailureListener {
+                    Log.e(ContentValues.TAG, "Error: ${it.message}")
+                }
+        } else {
+            Log.e(ContentValues.TAG, "No authenticated user found.")
+        }
+}
+    suspend fun getCurrentUserphone(result: (String) -> Unit) {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            database.collection("users")
+                .document(currentUser.uid)
+                .get()
+                .addOnSuccessListener { snapshot ->
+
+                    val user = snapshot.toObject(User::class.java)
+                    Log.d(ContentValues.TAG, "onCreate Tarak11: "+user?.name.toString())
+                    result.invoke(user?.phone.toString())
+
+
+                }
+                .addOnFailureListener {
+                    Log.e(ContentValues.TAG, "Error: ${it.message}")
+                }
+        } else {
+            Log.e(ContentValues.TAG, "No authenticated user found.")
+        }
+    }
+
+
+    suspend fun getCurrentUsertype(result: (String) -> Unit) {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            database.collection("users")
+                .document(currentUser.uid)
+                .get()
+                .addOnSuccessListener { snapshot ->
+
+                    val user = snapshot.toObject(User::class.java)
+                    Log.d(ContentValues.TAG, "onCreate Tarak11: "+user?.user_type.toString())
+                    result.invoke(user?.user_type.toString())
+
+                }
+                .addOnFailureListener {
+                    Log.e(ContentValues.TAG, "Error: ${it.message}")
+                }
+        } else {
+            Log.e(ContentValues.TAG, "No authenticated user found.")
+        }
+    }
+
+
     override suspend fun deleteUser(userId: String, result: (Resource<String>) -> Unit) {
         database.collection("users")
             .document(userId)
@@ -250,11 +319,15 @@ class RepositoryImpl @Inject constructor(
             .whereEqualTo("email", email)
             .get()
             .await()
+
         for (i in query.documents){
+            Log.d(TAG, "Tarak11 getUserId: "+i.toString())
             val id = i.id
             result.invoke(id)
         }
     }
+
+
 
     override suspend fun getCurrentUserEmail(result: (String) -> Unit) {
         val currentUser = auth.currentUser

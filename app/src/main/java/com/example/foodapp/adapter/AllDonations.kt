@@ -83,8 +83,8 @@ class AllDonations(private val instance: AdminHomeFragment) : ListAdapter<Donati
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: Donation) {
-            binding.foodItemName.text = item.name
-            binding.description.text = item.foodItem
+            binding.foodItemName.text = "Item:- " +item.name
+            binding.description.text = "Description:- " +item.foodItem
             binding.phoneNumber.text = item.phoneNumber
         }
 

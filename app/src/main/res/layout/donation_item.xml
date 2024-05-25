@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
+    android:backgroundTint="#c9ada7"
+
     android:layout_margin="5dp"
     app:cardCornerRadius="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -12,23 +14,27 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:fontFamily="sans-serif-condensed-medium"
+
             android:id="@+id/foodItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:text="ckdbvv"
+            android:text="Food Name"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:fontFamily="sans-serif-condensed-medium"
+
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="bfnbklfndlbnlkfb;ldnfklndfklnbfkl"
+            android:text="Describe"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/foodItemName"
             app:layout_constraintTop_toBottomOf="@+id/foodItemName" />
@@ -36,6 +42,8 @@
         <TextView
             android:id="@+id/phoneNumber"
             android:layout_width="wrap_content"
+            android:fontFamily="sans-serif-condensed-medium"
+
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text=""

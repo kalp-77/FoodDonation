@@ -22,8 +22,8 @@ class HistoryAdapter : ListAdapter<Donation, HistoryAdapter.DonationsViewHolder>
     class DonationsViewHolder(private var binding: DonationsRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(donation: Donation?) {
-            binding.donatedFoodItem.text = donation?.foodItem
-            binding.donatedFoodItemDescription.text = donation?.description
+            binding.donatedFoodItem.text = "Item:- "+ donation?.foodItem?.capitalize()
+            binding.donatedFoodItemDescription.text = "Address:- "+ donation?.description?.capitalize()
             binding.donorPhoneNumber.setOnClickListener {
                 //start phone call
                 val phoneNumber = donation?.phoneNumber

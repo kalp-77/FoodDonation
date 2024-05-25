@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#f2e9e4"
+
     android:layout_height="match_parent"
     tools:context=".fragments.auth.LoginFragment">
 
@@ -97,12 +99,12 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:backgroundTint="@color/orange"
+        android:backgroundTint="#22223b"
         android:padding="16dp"
         android:text="@string/login"
         android:textAllCaps="false"
         app:cornerRadius="20dp"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/forgotPasswordTv" />
@@ -124,7 +126,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="@string/register"
-        android:textColor="@color/orange"
+        android:textColor="#22223b"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintStart_toEndOf="@+id/textView2"

@@ -99,8 +99,8 @@ class LoginFragment : Fragment() {
                         //Toast.makeText(activity, "Internet is available", Toast.LENGTH_SHORT).show()
                         binding.emailTinputLayout.isEnabled = false
                         binding.passwordInputLayout.isEnabled = false
-                        binding.btnLogin.isEnabled = false
-                        binding.btnLogin.text = "Loading..."
+                        binding.btnLogin.isEnabled = true
+                        //binding.btnLogin.text = "Loading..."
                         viewModel.login(email, password)
                         viewModel.loginRequest.observe(viewLifecycleOwner){
                             when(it){
@@ -140,81 +140,7 @@ class LoginFragment : Fragment() {
                             }
                         }
 
-                        /*auth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(requireActivity()) { task ->
-                                val currentUser = auth.currentUser
-                                if (task.isSuccessful) {
-i                                    if (currentUser!!.isEmailVerified) {
-                                        databaseReference =
-                                            FirebaseDatabase.getInstance().getReference("Users")
-                                        val firebaseUser: FirebaseUser? =
-                                            FirebaseAuth.getInstance().currentUser
-                                        val uid: String? = firebaseUser?.uid
-                                        uid?.let { id ->
-                                            databaseReference.child(id)
-                                                .addValueEventListener(object : ValueEventListener {
-                                                    override fun onDataChange(snapshot: DataSnapshot) {
-                                                        val user =
-                                                            snapshot.getValue(User::class.java)
-                                                        if (user != null) {
-                                                            binding.progressCircular.isVisible =
-                                                                false
-                                                            binding.btnLogin.isEnabled = true
-                                                            binding.btnLogin.text = "Login"
-                                                            Toast.makeText(
-                                                                requireContext(),
-                                                                "Login in successful",
-                                                                Toast.LENGTH_SHORT
-                                                            ).show()
-                                                            findNavController().navigate(R.id.action_loginFragment_to_homeFragment)
-                                                        }
-                                                    }
 
-                                                    override fun onCancelled(error: DatabaseError) {
-                                                        binding.progressCircular.isVisible = false
-                                                        binding.btnLogin.isEnabled = true
-                                                        binding.btnLogin.text = "Login"
-                                                        binding.emailTinputLayout.editText?.text?.clear()
-                                                        binding.passwordInputLayout.editText?.text?.clear()
-                                                        binding.emailTinputLayout.isEnabled = true
-                                                        binding.passwordInputLayout.isEnabled = true
-                                                        Toast.makeText(
-                                                            activity,
-                                                            "Error: ${error.message}",
-                                                            Toast.LENGTH_SHORT
-                                                        ).show()
-                                                    }
-                                                })
-                                        }
-
-                                    } else {
-                                        binding.progressCircular.isVisible = false
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Please verify your email",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        binding.emailTinputLayout.editText?.text?.clear()
-                                        binding.passwordInputLayout.editText?.text?.clear()
-                                        binding.emailTinputLayout.isEnabled = true
-                                        binding.passwordInputLayout.isEnabled = true
-                                    }
-                                } else {
-                                    binding.progressCircular.isVisible = false
-                                    binding.btnLogin.isEnabled = true
-                                    binding.emailTinputLayout.editText?.text?.clear()
-                                    binding.passwordInputLayout.editText?.text?.clear()
-                                    binding.emailTinputLayout.isEnabled = true
-                                    binding.passwordInputLayout.isEnabled = true
-                                    binding.btnLogin.isEnabled = true
-                                    binding.btnLogin.text = "Login"
-                                    Toast.makeText(
-                                        activity,
-                                        "Error: ${task.exception?.message}",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                }
-                            }*/
 
                     } else {
                         Toast.makeText(activity, "No internet connection", Toast.LENGTH_SHORT)

@@ -23,8 +23,8 @@ class AllUsers(val instance: AdminHomeFragment) : ListAdapter<User, AllUsers.Use
 ) {
     class UsersViewHolderl (private val binding: UserItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: User) {
-            binding.userName.text = item.name
-            binding.phoneNumber.text = item.phone
+            binding.userName.text = "Name:- " +item.name
+            binding.phoneNumber.text = "Phone:- " +item.phone
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.foodapp.adapter
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -17,12 +18,16 @@ import com.example.foodapp.databinding.ReceiveRowLayoutBinding
 import com.example.foodapp.fragments.receive.ReceiveFragmentDirections
 import com.example.foodapp.model.Donation
 import com.example.foodapp.repository.MainRepository
+import com.google.android.material.card.MaterialCardView
 import com.google.firebase.firestore.FirebaseFirestore
 import javax.inject.Inject
 
+import androidx.appcompat.app.AppCompatActivity
 
 class ReceiveAdapter :
     ListAdapter<Donation, ReceiveAdapter.ReceiveViewHolder>(ReceiveViewHolder.ReceiveDiffUtil) {
+
+
     class ReceiveViewHolder(private val binding: ReceiveRowLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         object ReceiveDiffUtil : DiffUtil.ItemCallback<Donation>() {
@@ -40,8 +45,8 @@ class ReceiveAdapter :
 
         @SuppressLint("SetTextI18n")
         fun bind(donation: Donation?) {
-            binding.donatedFoodItem.text = donation?.foodItem
-            binding.donatedFoodItemDescription.text = donation?.description
+            binding.donatedFoodItem.text = "Item:- "+ donation?.foodItem?.capitalize()
+            binding.donatedFoodItemDescription.text = "Address:- "+ donation?.description?.capitalize()
             binding.donorPhoneNumber.setOnClickListener {
                 //start phone call
                 val phoneNumber = donation?.phoneNumber
@@ -126,12 +131,20 @@ class ReceiveAdapter :
 
     override fun onBindViewHolder(holder: ReceiveViewHolder, position: Int) {
         val item = getItem(position)
+        val cardView: MaterialCardView = holder.itemView.findViewById(R.id.main_card)
+
         //Set the checkbox to true if the donation is received
         if (item.received == true) {
             val cb = holder.itemView.findViewById<CheckBox>(R.id.receiveCheckBox)
+
+
             cb.isChecked = true
             cb.isEnabled = false
             cb.text = "Received"
+            cardView.strokeColor = Color.GREEN
+        }
+        else{
+            cardView.strokeColor = Color.parseColor("#FF474C")
         }
         holder.bind(item)
     }

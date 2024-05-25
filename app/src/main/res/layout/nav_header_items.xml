@@ -4,29 +4,83 @@
     android:id="@+id/navigation_header_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/orange"
+    android:background="#22223b"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+  <LinearLayout
+
+      android:orientation="vertical"
+      android:layout_margin="10dp"
+      android:id="@+id/ll"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
 
 
-    <TextView
-        android:id="@+id/useremail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="14sp"
-        android:text="example@gmail.com"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+      <TextView
+
+          android:layout_marginVertical="20dp"
+          android:id="@+id/account_Detaild"
+          android:layout_width="match_parent"
+          android:layout_gravity="center"
+          android:gravity="center"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:textSize="18sp"
+          android:text="Account Details"
+          android:textColor="@color/white"
+          app:layout_constraintBottom_toBottomOf="parent" />
+
+      <TextView
+          android:id="@+id/user_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:textSize="15sp"
+          android:text="Name : Tarak Sonawane"
+          android:textColor="@color/white"
+          app:layout_constraintBottom_toBottomOf="parent" />
+
+      <TextView
+          android:id="@+id/user_email"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:textSize="15sp"
+          android:text="Email : taraksonawane000@gmail.com"
+          android:textColor="@color/white"
+          app:layout_constraintBottom_toBottomOf="parent" />
+
+      <TextView
+          android:id="@+id/user_phone"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:textSize="15sp"
+          android:text="Phone : 77450045342"
+          android:textColor="@color/white"
+          app:layout_constraintBottom_toBottomOf="parent" />
+
+      <TextView
+          android:id="@+id/user_type"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="8dp"
+          android:textSize="15sp"
+          android:text="User Type : Type"
+          android:textColor="@color/white"
+          app:layout_constraintBottom_toBottomOf="parent" />
+
+
+  </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

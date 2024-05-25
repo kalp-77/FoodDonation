@@ -1,16 +1,21 @@
 package com.example.foodapp.activities
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.core.view.WindowCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.whenCreated
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -21,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.foodapp.R
 import com.example.foodapp.databinding.ActivityMainBinding
+import com.example.foodapp.model.User
 import com.example.foodapp.repository.RepositoryImpl
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +34,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -37,6 +46,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var databaseReference: DatabaseReference
+    lateinit var userEmailText: TextView
+    var maill: String = ""
+    private lateinit var database: FirebaseFirestore
 
     @SuppressLint("RestrictedApi")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,25 +96,41 @@ class MainActivity : AppCompatActivity() {
         }
 
         val header = binding.navigationView.getHeaderView(0)
-        val imageView = header.findViewById<ImageView>(R.id.imageView)
+        //val imageView = header.findViewById<ImageView>(R.id.imageView)
         val userImage = auth.currentUser?.photoUrl
 
 
-       lifecycleScope.launch {
-           whenCreated {
-               RepositoryImpl.getInstance().getCurrentUserEmail {
-                   val userEmailText = header.findViewById<android.widget.TextView>(R.id.useremail)
-                   userEmailText.text = it
-               }
-           }
-       }
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
 
-        Glide
-            .with(this)
-            .load(userImage)
-            .apply(RequestOptions().override(150, 150))
-            .placeholder(R.drawable.ic_person)
-            .into(imageView)
+                RepositoryImpl.getInstance().getCurrentUserEmail {
+                    userEmailText = header.findViewById<android.widget.TextView>(R.id.user_email)
+                    userEmailText.text = "Email : " +it
+
+                }
+
+                RepositoryImpl.getInstance().getCurrentUsername {
+                    userEmailText = header.findViewById<android.widget.TextView>(R.id.user_name)
+                    userEmailText.text ="Name : " + it
+                }
+
+                RepositoryImpl.getInstance().getCurrentUserphone {
+                    userEmailText = header.findViewById<android.widget.TextView>(R.id.user_phone)
+                    userEmailText.text = "Phone : " +it
+                }
+
+                RepositoryImpl.getInstance().getCurrentUsertype {
+                    userEmailText = header.findViewById<android.widget.TextView>(R.id.user_type)
+                    userEmailText.text = "User Type : " +it
+                }
+
+            }
+        }
+
+
+
+
+
 
 
 
